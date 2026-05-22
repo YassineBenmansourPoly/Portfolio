@@ -10,7 +10,14 @@ type ProjectModalProps = {
   onClose: () => void;
 };
 
+function isPlaceholderUrl(url: string) {
+  return url === "https://github.com" || url === "https://vercel.com" || url === "https://linkedin.com";
+}
+
 export function ProjectModal({ project, onClose }: ProjectModalProps) {
+  const hasGithub = project ? !isPlaceholderUrl(project.github) : false;
+  const hasDemo = project ? !isPlaceholderUrl(project.demo) : false;
+
   return (
     <AnimatePresence>
       {project ? (
@@ -63,14 +70,28 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
                   ))}
                 </div>
                 <div className="mt-6 grid gap-3">
-                  <a className="focus-ring inline-flex items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100" href={project.demo}>
-                    <ExternalLink className="h-4 w-4" />
-                    Live demo
-                  </a>
-                  <a className="focus-ring inline-flex items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10" href={project.github}>
-                    <Github className="h-4 w-4" />
-                    GitHub
-                  </a>
+                  {hasDemo ? (
+                    <a className="focus-ring inline-flex items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100" href={project.demo} target="_blank" rel="noreferrer">
+                      <ExternalLink className="h-4 w-4" />
+                      Live demo
+                    </a>
+                  ) : (
+                    <span className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-semibold text-slate-500">
+                      <ExternalLink className="h-4 w-4" />
+                      Demo pending
+                    </span>
+                  )}
+                  {hasGithub ? (
+                    <a className="focus-ring inline-flex items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10" href={project.github} target="_blank" rel="noreferrer">
+                      <Github className="h-4 w-4" />
+                      GitHub
+                    </a>
+                  ) : (
+                    <span className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-semibold text-slate-500">
+                      <Github className="h-4 w-4" />
+                      Repo pending
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
