@@ -33,7 +33,6 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const featuredProjects = projects.filter((project) => project.featured);
   const visibleProjects = useMemo(() => {
     const search = query.trim().toLowerCase();
 
@@ -100,14 +99,8 @@ export default function Home() {
 
       <MotionSection id="projects" className="relative border-y border-white/10 bg-white/[0.025] px-5 py-24 sm:px-8" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
         <div className="mx-auto max-w-7xl">
-          <SectionHeader label="Featured work" title="Projects with a reason to exist." description="Each project is framed around the problem it solved, the decisions behind it, and the stack used to ship it." />
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">{featuredProjects.map((project) => <ProjectCard key={project.id} project={project} featured onOpen={setSelectedProject} />)}</div>
-        </div>
-      </MotionSection>
+          <SectionHeader label="Projects" title="Browse all projects." description="Search or filter the full project library by category, stack, or title." />
 
-      <section className="border-b border-white/10 px-5 py-24 sm:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeader label="Project library" title="Search the build archive." description="A clean project system for many projects: filter by category, search by stack or title, then open the detail view." />
           <div className="mb-8 grid gap-4 lg:grid-cols-[1fr_auto]">
             <label className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.06] px-4 py-3 transition focus-within:ring-4 focus-within:ring-cyan-300/30"><Search className="h-5 w-5 text-slate-400" /><input className="w-full bg-transparent text-sm text-white outline-none placeholder:text-slate-500" placeholder="Search projects, tools, or tech stack" value={query} onChange={(event) => setQuery(event.target.value)} /></label>
             <div className="flex flex-wrap gap-2">{categories.map((category) => <button key={category} className={`focus-ring rounded-lg border px-4 py-2 text-sm font-medium transition ${activeCategory === category ? "border-cyan-200/60 bg-cyan-200 text-slate-950" : "border-white/10 bg-white/[0.05] text-slate-300 hover:bg-white/10 hover:text-white"}`} onClick={() => setActiveCategory(category)}>{category}</button>)}</div>
@@ -121,7 +114,7 @@ export default function Home() {
             </div>
           )}
         </div>
-      </section>
+      </MotionSection>
 
       <section id="about" className="border-b border-white/10 bg-gradient-to-b from-transparent to-pink-950/10 px-5 py-24 sm:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
