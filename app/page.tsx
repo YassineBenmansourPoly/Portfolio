@@ -11,6 +11,13 @@ const languages = ["Java", "C#", "HTML", "CSS", "PHP", "JavaScript", "Swift", "S
 
 const tools = ["Visual Studio", "VS Code", ".NET", "GitHub", "Xcode", "MySQL", "SQL Server", "Figma"];
 
+const navItems = [
+  { label: "Projects", href: "#projects" },
+  { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Contact", href: "#contact" }
+];
+
 function SectionHeader({ label, title, description }: { label: string; title: string; description: string }) {
   return (
     <div className="mx-auto mb-10 max-w-3xl text-center">
@@ -43,17 +50,23 @@ export default function Home() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(14,165,233,0.14),transparent_34rem)]" />
 
       <header className="sticky top-0 z-40 border-b border-white/10 bg-ink/72 backdrop-blur-xl">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
-          <a href="#top" className="font-display text-lg font-semibold text-white">Yassine Benmansour</a>
-          <div className="hidden items-center gap-7 text-sm text-slate-300 md:flex">
-            <a className="transition hover:text-white" href="#projects">Projects</a>
-            <a className="transition hover:text-white" href="#about">About</a>
-            <a className="transition hover:text-white" href="#skills">Skills</a>
-            <a className="transition hover:text-white" href="#contact">Contact</a>
+        <nav className="mx-auto max-w-7xl px-5 py-3 sm:px-8 md:py-4">
+          <div className="flex items-center justify-between gap-4">
+            <a href="#top" className="font-display text-base font-semibold text-white sm:text-lg">Yassine Benmansour</a>
+            <div className="hidden items-center gap-7 text-sm text-slate-300 md:flex">
+              {navItems.map((item) => (
+                <a key={item.href} className="transition hover:text-white" href={item.href}>{item.label}</a>
+              ))}
+            </div>
+            <a className="focus-ring inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100" href="mailto:yassine@example.com">
+              <Mail className="h-4 w-4" />Email
+            </a>
           </div>
-          <a className="focus-ring inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100" href="mailto:yassine@example.com">
-            <Mail className="h-4 w-4" />Email
-          </a>
+          <div className="mt-3 grid grid-cols-4 gap-2 text-center text-xs text-slate-300 md:hidden">
+            {navItems.map((item) => (
+              <a key={item.href} className="focus-ring rounded-lg border border-white/10 bg-white/[0.04] px-2 py-2 transition hover:bg-white/10 hover:text-white" href={item.href}>{item.label}</a>
+            ))}
+          </div>
         </nav>
       </header>
 
@@ -99,7 +112,14 @@ export default function Home() {
             <label className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.06] px-4 py-3 transition focus-within:ring-4 focus-within:ring-cyan-300/30"><Search className="h-5 w-5 text-slate-400" /><input className="w-full bg-transparent text-sm text-white outline-none placeholder:text-slate-500" placeholder="Search projects, tools, or tech stack" value={query} onChange={(event) => setQuery(event.target.value)} /></label>
             <div className="flex flex-wrap gap-2">{categories.map((category) => <button key={category} className={`focus-ring rounded-lg border px-4 py-2 text-sm font-medium transition ${activeCategory === category ? "border-cyan-200/60 bg-cyan-200 text-slate-950" : "border-white/10 bg-white/[0.05] text-slate-300 hover:bg-white/10 hover:text-white"}`} onClick={() => setActiveCategory(category)}>{category}</button>)}</div>
           </div>
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{visibleProjects.map((project) => <ProjectCard key={project.id} project={project} onOpen={setSelectedProject} />)}</div>
+          {visibleProjects.length ? (
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{visibleProjects.map((project) => <ProjectCard key={project.id} project={project} onOpen={setSelectedProject} />)}</div>
+          ) : (
+            <div className="rounded-lg border border-white/10 bg-white/[0.04] px-5 py-12 text-center">
+              <p className="font-display text-2xl font-semibold text-white">No projects found</p>
+              <p className="mt-2 text-sm text-slate-400">Try another keyword or switch back to the All category.</p>
+            </div>
+          )}
         </div>
       </section>
 
