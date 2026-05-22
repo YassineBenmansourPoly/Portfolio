@@ -12,11 +12,7 @@ const config: Config = {
         ink: "#05070d",
         graphite: "#0a101b",
         panel: "rgba(12, 18, 31, 0.68)",
-        line: "rgba(148, 163, 184, 0.16)",
-        cyan: "#22d3ee",
-        blue: "#3b82f6",
-        violet: "#8b5cf6",
-        pink: "#ff4fd8"
+        line: "rgba(148, 163, 184, 0.16)"
       },
       boxShadow: {
         glow: "0 0 60px rgba(34, 211, 238, 0.14)",
