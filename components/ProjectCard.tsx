@@ -11,7 +11,14 @@ type ProjectCardProps = {
   onOpen: (project: Project) => void;
 };
 
+function isPlaceholderUrl(url: string) {
+  return url === "https://github.com" || url === "https://vercel.com" || url === "https://linkedin.com";
+}
+
 export function ProjectCard({ project, featured = false, onOpen }: ProjectCardProps) {
+  const hasGithub = !isPlaceholderUrl(project.github);
+  const hasDemo = !isPlaceholderUrl(project.demo);
+
   return (
     <MotionDiv
       layout
@@ -47,12 +54,24 @@ export function ProjectCard({ project, featured = false, onOpen }: ProjectCardPr
             Details
           </button>
           <div className="flex gap-2">
-            <a className="focus-ring grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/5 text-slate-300 transition hover:text-white" href={project.github} aria-label={`${project.title} GitHub`}>
-              <Github className="h-4 w-4" />
-            </a>
-            <a className="focus-ring grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/5 text-slate-300 transition hover:text-white" href={project.demo} aria-label={`${project.title} live demo`}>
-              <ExternalLink className="h-4 w-4" />
-            </a>
+            {hasGithub ? (
+              <a className="focus-ring grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/5 text-slate-300 transition hover:text-white" href={project.github} target="_blank" rel="noreferrer" aria-label={`${project.title} GitHub`}>
+                <Github className="h-4 w-4" />
+              </a>
+            ) : (
+              <span className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/[0.03] text-slate-600" aria-label={`${project.title} GitHub link not added yet`} title="GitHub link not added yet">
+                <Github className="h-4 w-4" />
+              </span>
+            )}
+            {hasDemo ? (
+              <a className="focus-ring grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/5 text-slate-300 transition hover:text-white" href={project.demo} target="_blank" rel="noreferrer" aria-label={`${project.title} live demo`}>
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            ) : (
+              <span className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/[0.03] text-slate-600" aria-label={`${project.title} live demo link not added yet`} title="Live demo link not added yet">
+                <ExternalLink className="h-4 w-4" />
+              </span>
+            )}
           </div>
         </div>
       </div>
